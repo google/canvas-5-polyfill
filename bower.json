@@ -1,0 +1,13 @@
+{
+  "name": "canvas-5-polyfill",
+  "main": "canvas.js",
+  "homepage": "https://github.com/google/canvas-5-polyfill",
+  "ignore": [".jshintrc","**/*.txt"],
+  "dependencies": {},
+  "keywords": [
+    "canvas",
+    "polyfill",
+    "html5"
+    ],
+  "license": "BSD"
+}
