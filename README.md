@@ -1,18 +1,18 @@
-# Canvas5
+# Canvas 5 Polyfill
 
-Canvas5 is a Javascript polyfill library to fill in new features for HTML 5
+Canvas 5 Polyfill is a Javascript polyfill library to fill in new features for HTML 5
 Canvas that browsers may not have implemented yet, such as Path2D objects and
 ellipse() on CanvasRenderingContext2D.
 
 ## Installation
 
-Canvas5 uses [http://bower.io/](Bower) to make installation easy:
+Canvas 5 Polyfill uses [http://bower.io/](Bower) to make installation easy:
 
 ```
     bower install --save canvas-5-polyfill
 ```
 
-You can also get the code directly at [https://github.com/google/canvas5](GitHub).
+You can also get the code directly at [https://github.com/google/canvas-5-polyfill](GitHub).
 
 ## Usage
 
@@ -40,8 +40,8 @@ You can also get the code directly at [https://github.com/google/canvas5](GitHub
 
 ## Status
 
-Canvas5 adds the following classes and methods to an existing HTML Canvas
-implementation if they are missing, if they are not missing the native
+Canvas 5 Polyfill adds the following classes and methods to an existing HTML
+Canvas implementation if they are missing, if they are not missing the native
 implementations are used:
 
 The polyfill adds the following methods to CanvasRenderingContext2D:
@@ -58,9 +58,9 @@ The polyfill adds the following methods to CanvasRenderingContext2D:
 
 It also adds Path2D with the following constructors:
 
-   Path2D()
-   Path2D(Path2D path, optional CanvasFillRule fillRule = "nonzero"),
-   Path2D(DOMString d)
+    Path2D()
+    Path2D(Path2D path, optional CanvasFillRule fillRule = "nonzero"),
+    Path2D(DOMString d)
 
 Where Path2D has the following methods:
 
