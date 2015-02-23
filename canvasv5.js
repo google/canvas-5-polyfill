@@ -9,6 +9,17 @@
  * A polyfill for HTML Canvas features, including
  * Path2D support.
  */
+if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
+  CanvasRenderingContext2D.prototype.ellipse = function(x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
+    this.save();
+    this.translate(x, y);
+    this.rotate(rotation);
+    this.scale(radiusX, radiusY);
+    this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+    this.restore();
+  }
+}
+
 if (typeof Path2D !== 'function') {
   (function() {
 
@@ -35,16 +46,6 @@ if (typeof Path2D !== 'function') {
 
     // TODO(jcgregorio) test for arcTo and implement via something.
 
-    if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
-      CanvasRenderingContext2D.prototype.ellipse = function(x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
-        this.save();
-        this.translate(x, y);
-        this.rotate(rotation);
-        this.scale(radiusX, radiusY);
-        this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
-        this.restore();
-      }
-    }
 
     // Path methods that map simply to the CanvasRenderingContext2D.
     var simple_mapping = [
@@ -171,3 +172,4 @@ if (typeof Path2D !== 'function') {
     Path2D = Path_;
   })();
 }
+

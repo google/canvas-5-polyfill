@@ -18,14 +18,13 @@ describe('AddPath Test Suite.',
       var toadd = new Path2D();
       toadd.rect(0, 0, 100, 100);
 
-      tr = {
-        a: 0,
-        b: 1,
-        c: 2,
-        d: 3,
-        e: 4,
-        f: 5
-      };
+      var tr = document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGMatrix();
+      tr.a = 0;
+      tr.b = 1;
+      tr.c = 2;
+      tr.d = 3;
+      tr.e = 4;
+      tr.f = 5;
       path.addPath(toadd, tr);
       assert.equal(path.ops_.length, 4);
       assert.equal(path.ops_[0].type, 'save');
