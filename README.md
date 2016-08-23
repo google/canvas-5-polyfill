@@ -6,13 +6,13 @@ ellipse() on CanvasRenderingContext2D.
 
 ## Installation
 
-Canvas 5 Polyfill uses [http://bower.io/](Bower) to make installation easy:
+Canvas 5 Polyfill uses [Bower](http://bower.io/) to make installation easy:
 
 ```
     bower install --save canvas-5-polyfill
 ```
 
-You can also get the code directly at [https://github.com/google/canvas-5-polyfill](GitHub).
+You can also get the code directly at [GitHub](https://github.com/google/canvas-5-polyfill).
 
 ## Usage
 
