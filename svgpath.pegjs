@@ -20,6 +20,19 @@
   // The letter of the last parsed command.
   var lastCh = '';
 
+  // Flatten an array.
+  function flatten(a) {
+    var flat = [];
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] instanceof Array) {
+        flat.push.apply(flat, flatten(a[i]));
+      } else {
+        flat.push(a[i]);
+      }
+    }
+    return flat;
+  }
+
   // Convert a position into an absolute position.
   function makeAbsolute(c, coord) {
     if ('mlazhvcsqt'.indexOf(c) === -1) {
@@ -363,7 +376,7 @@ elliptical_arc_argument_sequence
 elliptical_arc_argument
   = rx:nonnegative_number comma_wsp? ry:nonnegative_number comma_wsp?
         xrot:number comma_wsp large:flag comma_wsp? sweep:flag comma_wsp? last:coordinate_pair
-  { return [parseFloat(rx), parseFloat(ry), parseFloat(xrot.join('')), parseInt(large), parseInt(sweep), last[0], last[1]]; }
+  { return [parseFloat(rx), parseFloat(ry), parseFloat(flatten(xrot).join('')), parseInt(large), parseInt(sweep), last[0], last[1]]; }
 
 coordinate_pair
   = x:coordinate comma_wsp? y:coordinate
@@ -371,7 +384,7 @@ coordinate_pair
 
 coordinate
   = number:number
-  { return parseFloat(number.join('')) }
+  { return parseFloat(flatten(number).join('')) }
 
 nonnegative_number
   = floating_point_constant

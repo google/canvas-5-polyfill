@@ -145,9 +145,9 @@ if (typeof Path2D !== 'function') {
                   ellipseFromEllipticalArc.apply(this, absArgs);
                 }
               },
-            peg$c37 = function(rx, ry, xrot, large, sweep, last) { return [parseFloat(rx), parseFloat(ry), parseFloat(xrot.join('')), parseInt(large), parseInt(sweep), last[0], last[1]]; },
+            peg$c37 = function(rx, ry, xrot, large, sweep, last) { return [parseFloat(rx), parseFloat(ry), parseFloat(flatten(xrot).join('')), parseInt(large), parseInt(sweep), last[0], last[1]]; },
             peg$c38 = function(x, y) { return [x, y] },
-            peg$c39 = function(number) { return parseFloat(number.join('')) },
+            peg$c39 = function(number) { return parseFloat(flatten(number).join('')) },
             peg$c40 = "0",
             peg$c41 = { type: "literal", value: "0", description: "\"0\"" },
             peg$c42 = "1",
@@ -1892,7 +1892,20 @@ if (typeof Path2D !== 'function') {
           var firstSubPath = true;
           // The letter of the last parsed command.
           var lastCh = '';
-    
+
+          // Flatten an array.
+          function flatten(a) {
+            var flat = [];
+            for (var i = 0; i < a.length; i++) {
+              if (a[i] instanceof Array) {
+                flat.push.apply(flat, flatten(a[i]));
+              } else {
+                flat.push(a[i]);
+              }
+            }
+            return flat;
+          }
+
           // Convert a position into an absolute position.
           function makeAbsolute(c, coord) {
             if ('mlazhvcsqt'.indexOf(c) === -1) {
