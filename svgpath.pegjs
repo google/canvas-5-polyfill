@@ -26,8 +26,7 @@
     for (var i = 0; i < a.length; i++) {
       if (a[i] instanceof Array) {
         flat.push.apply(flat, flatten(a[i]));
-      }
-      else {
+      } else {
         flat.push(a[i]);
       }
     }
