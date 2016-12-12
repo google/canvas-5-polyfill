@@ -20,7 +20,8 @@ if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
   }
 }
 
-if (typeof Path2D !== 'function') {
+if (typeof Path2D !== 'function' || 
+    typeof new Path2D().addPath !== 'function') {
   (function() {
 
     // Include the SVG path parser.
@@ -1892,7 +1893,7 @@ if (typeof Path2D !== 'function') {
           var firstSubPath = true;
           // The letter of the last parsed command.
           var lastCh = '';
-
+    
           // Flatten an array.
           function flatten(a) {
             var flat = [];
@@ -1905,7 +1906,7 @@ if (typeof Path2D !== 'function') {
             }
             return flat;
           }
-
+    
           // Convert a position into an absolute position.
           function makeAbsolute(c, coord) {
             if ('mlazhvcsqt'.indexOf(c) === -1) {
