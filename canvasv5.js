@@ -25,7 +25,8 @@ if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
   }
 }
 
-if (typeof Path2D !== 'function') {
+if (typeof Path2D !== 'function' || 
+    typeof new Path2D().addPath !== 'function') {
   (function() {
 
     // Include the SVG path parser.
