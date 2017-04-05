@@ -83,12 +83,12 @@ if (typeof Path2D !== 'function' ||
     Path_.prototype['addPath'] = function(path, tr) {
       var hasTx = false;
       if (tr
-          && tr.hasOwnProperty('a')
-          && tr.hasOwnProperty('b')
-          && tr.hasOwnProperty('c')
-          && tr.hasOwnProperty('d')
-          && tr.hasOwnProperty('e')
-          && tr.hasOwnProperty('f')) {
+          && tr.a != undefined
+          && tr.b != undefined
+          && tr.c != undefined
+          && tr.d != undefined
+          && tr.e != undefined
+          && tr.f != undefined) {
         hasTx = true;
         this.ops_.push({type: 'save', args: []});
         this.ops_.push({type: 'transform', args: [tr.a, tr.b, tr.c, tr.d, tr.e, tr.f]});

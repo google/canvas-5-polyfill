@@ -5,6 +5,10 @@ describe('AddPath Test Suite.',
 
     it('should add paths w/o transform.', function() {
       var path = new Path2D();
+      if (path.ops_ == undefined) {
+        // Don't bother testing a native Path2D impl.
+        return
+      }
       var toadd = new Path2D();
       toadd.rect(0, 0, 100, 100);
 
@@ -15,6 +19,10 @@ describe('AddPath Test Suite.',
 
     it('should add paths with transform.', function() {
       var path = new Path2D();
+      if (path.ops_ == undefined) {
+        // Don't bother testing a native Path2D impl.
+        return
+      }
       var toadd = new Path2D();
       toadd.rect(0, 0, 100, 100);
 

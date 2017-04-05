@@ -5,6 +5,10 @@ describe('Path constructors.',
 
     it('Path copy constructor.', function() {
       var path = new Path2D();
+      if (path.ops_ == undefined) {
+        // Don't bother testing a native Path2D impl.
+        return
+      }
       path.rect(0, 0, 100, 100);
       assert.equal(path.ops_[0].type, 'rect', 'Test the test.');
 
@@ -22,6 +26,10 @@ describe('Path simple methods.',
 
     it('Simple methods.', function() {
       var path = new Path2D();
+      if (path.ops_ == undefined) {
+        // Don't bother testing a native Path2D impl.
+        return
+      }
       path.rect(0, 1, 2, 3);
       assert.equal(path.ops_[0].type, 'rect');
       assert.equal(path.ops_[0].args[0], 0);
