@@ -1996,13 +1996,17 @@ if (typeof Path2D !== 'function' ||
           function ratio(u, v) {
             return dot(u,v) / (mag(u)*mag(v))
           }
+
+          function clamp(value,min,max) {
+            return Math.min(Math.max(val, min),max);
+          }
     
           function angle(u, v) {
             var sign = 1.0;
             if ((u[0]*v[1] - u[1]*v[0]) < 0) {
               sign = -1.0;
             }
-            return sign * Math.acos(ratio(u,v));
+            return sign * Math.acos(clamp(ratio(u,v)), -1, 1);
           }
     
           function rotClockwise(v, angle) {
@@ -2066,8 +2070,7 @@ if (typeof Path2D !== 'function' ||
               rx2 = Math.pow(rx, 2);
               ry2 = Math.pow(ry, 2);
             }
-    
-            var factor = Math.sqrt((rx2*ry2 - rx2*xPrime2[1] - ry2*xPrime2[0]) /
+            var factor = Math.sqrt(Math.abs(rx2*ry2 - rx2*xPrime2[1] - ry2*xPrime2[0]) /
               (rx2*xPrime2[1] + ry2*xPrime2[0]));
             if (fA == fS) {
               factor *= -1.0;
