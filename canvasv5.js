@@ -9,9 +9,11 @@
  * A polyfill for HTML Canvas features, including
  * Path2D support.
  */
-var CanvasRenderingContext2D = CanvasRenderingContext2D;
+
+(function (CanvasRenderingContext2D, nodeRequire) {
+
 if (CanvasRenderingContext2D == undefined) {
-  CanvasRenderingContext2D = require('canvas').Context2d;
+  CanvasRenderingContext2D = nodeRequire('canvas').Context2d;
 }
 
 if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
@@ -179,3 +181,7 @@ if (typeof Path2D !== 'function' ||
   })();
 }
 
+})(
+  typeof CanvasRenderingContext2D === "undefined" ? undefined : CanvasRenderingContext2D,
+  typeof require === "undefined" ? undefined : require
+);
