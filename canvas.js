@@ -27,7 +27,7 @@ if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
   }
 }
 
-if (typeof Path2D !== 'function' || 
+if (typeof Path2D !== 'function' ||
     typeof new Path2D().addPath !== 'function') {
   (function() {
 
@@ -38,13 +38,13 @@ if (typeof Path2D !== 'function' ||
        *
        * http://pegjs.majda.cz/
        */
-    
+
       function peg$subclass(child, parent) {
         function ctor() { this.constructor = child; }
         ctor.prototype = parent.prototype;
         child.prototype = new ctor();
       }
-    
+
       function SyntaxError(message, expected, found, offset, line, column) {
         this.message  = message;
         this.expected = expected;
@@ -52,20 +52,20 @@ if (typeof Path2D !== 'function' ||
         this.offset   = offset;
         this.line     = line;
         this.column   = column;
-    
+
         this.name     = "SyntaxError";
       }
-    
+
       peg$subclass(SyntaxError, Error);
-    
+
       function parse(input) {
         var options = arguments.length > 1 ? arguments[1] : {},
-    
+
             peg$FAILED = {},
-    
+
             peg$startRuleFunctions = { svg_path: peg$parsesvg_path },
             peg$startRuleFunction  = peg$parsesvg_path,
-    
+
             peg$c0 = peg$FAILED,
             peg$c1 = [],
             peg$c2 = null,
@@ -182,7 +182,7 @@ if (typeof Path2D !== 'function' ||
             peg$c56 = function(digits) { return digits.join('') },
             peg$c57 = /^[ \t\n\r]/,
             peg$c58 = { type: "class", value: "[ \\t\\n\\r]", description: "[ \\t\\n\\r]" },
-    
+
             peg$currPos          = 0,
             peg$reportedPos      = 0,
             peg$cachedPos        = 0,
@@ -190,33 +190,33 @@ if (typeof Path2D !== 'function' ||
             peg$maxFailPos       = 0,
             peg$maxFailExpected  = [],
             peg$silentFails      = 0,
-    
+
             peg$result;
-    
+
         if ("startRule" in options) {
           if (!(options.startRule in peg$startRuleFunctions)) {
             throw new Error("Can't start parsing from rule \"" + options.startRule + "\".");
           }
-    
+
           peg$startRuleFunction = peg$startRuleFunctions[options.startRule];
         }
-    
+
         function text() {
           return input.substring(peg$reportedPos, peg$currPos);
         }
-    
+
         function offset() {
           return peg$reportedPos;
         }
-    
+
         function line() {
           return peg$computePosDetails(peg$reportedPos).line;
         }
-    
+
         function column() {
           return peg$computePosDetails(peg$reportedPos).column;
         }
-    
+
         function expected(description) {
           throw peg$buildException(
             null,
@@ -224,15 +224,15 @@ if (typeof Path2D !== 'function' ||
             peg$reportedPos
           );
         }
-    
+
         function error(message) {
           throw peg$buildException(message, null, peg$reportedPos);
         }
-    
+
         function peg$computePosDetails(pos) {
           function advance(details, startPos, endPos) {
             var p, ch;
-    
+
             for (p = startPos; p < endPos; p++) {
               ch = input.charAt(p);
               if (ch === "\n") {
@@ -249,7 +249,7 @@ if (typeof Path2D !== 'function' ||
               }
             }
           }
-    
+
           if (peg$cachedPos !== pos) {
             if (peg$cachedPos > pos) {
               peg$cachedPos = 0;
@@ -258,25 +258,25 @@ if (typeof Path2D !== 'function' ||
             advance(peg$cachedPosDetails, peg$cachedPos, pos);
             peg$cachedPos = pos;
           }
-    
+
           return peg$cachedPosDetails;
         }
-    
+
         function peg$fail(expected) {
           if (peg$currPos < peg$maxFailPos) { return; }
-    
+
           if (peg$currPos > peg$maxFailPos) {
             peg$maxFailPos = peg$currPos;
             peg$maxFailExpected = [];
           }
-    
+
           peg$maxFailExpected.push(expected);
         }
-    
+
         function peg$buildException(message, expected, pos) {
           function cleanupExpected(expected) {
             var i = 1;
-    
+
             expected.sort(function(a, b) {
               if (a.description < b.description) {
                 return -1;
@@ -286,7 +286,7 @@ if (typeof Path2D !== 'function' ||
                 return 0;
               }
             });
-    
+
             while (i < expected.length) {
               if (expected[i - 1] === expected[i]) {
                 expected.splice(i, 1);
@@ -295,11 +295,11 @@ if (typeof Path2D !== 'function' ||
               }
             }
           }
-    
+
           function buildMessage(expected, found) {
             function stringEscape(s) {
               function hex(ch) { return ch.charCodeAt(0).toString(16).toUpperCase(); }
-    
+
               return s
                 .replace(/\\/g,   '\\\\')
                 .replace(/"/g,    '\\"')
@@ -313,32 +313,32 @@ if (typeof Path2D !== 'function' ||
                 .replace(/[\u0180-\u0FFF]/g,         function(ch) { return '\\u0' + hex(ch); })
                 .replace(/[\u1080-\uFFFF]/g,         function(ch) { return '\\u'  + hex(ch); });
             }
-    
+
             var expectedDescs = new Array(expected.length),
                 expectedDesc, foundDesc, i;
-    
+
             for (i = 0; i < expected.length; i++) {
               expectedDescs[i] = expected[i].description;
             }
-    
+
             expectedDesc = expected.length > 1
               ? expectedDescs.slice(0, -1).join(", ")
                   + " or "
                   + expectedDescs[expected.length - 1]
               : expectedDescs[0];
-    
+
             foundDesc = found ? "\"" + stringEscape(found) + "\"" : "end of input";
-    
+
             return "Expected " + expectedDesc + " but " + foundDesc + " found.";
           }
-    
+
           var posDetails = peg$computePosDetails(pos),
               found      = pos < input.length ? input.charAt(pos) : null;
-    
+
           if (expected !== null) {
             cleanupExpected(expected);
           }
-    
+
           return new SyntaxError(
             message !== null ? message : buildMessage(expected, found),
             expected,
@@ -348,10 +348,10 @@ if (typeof Path2D !== 'function' ||
             posDetails.column
           );
         }
-    
+
         function peg$parsesvg_path() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = [];
           s2 = peg$parsewsp();
@@ -387,13 +387,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsemoveTo_drawTo_commandGroups() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsemoveTo_drawTo_commandGroup();
           if (s1 !== peg$FAILED) {
@@ -431,13 +431,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsemoveTo_drawTo_commandGroup() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsemoveto();
           if (s1 !== peg$FAILED) {
@@ -475,13 +475,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsedrawto_commands() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsedrawto_command();
           if (s1 !== peg$FAILED) {
@@ -519,13 +519,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsedrawto_command() {
           var s0;
-    
+
           s0 = peg$parseclosepath();
           if (s0 === peg$FAILED) {
             s0 = peg$parselineto();
@@ -551,13 +551,13 @@ if (typeof Path2D !== 'function' ||
               }
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsemoveto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c4.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -591,13 +591,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsemoveto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -634,13 +634,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseclosepath() {
           var s0, s1;
-    
+
           s0 = peg$currPos;
           if (peg$c8.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -654,13 +654,13 @@ if (typeof Path2D !== 'function' ||
             s1 = peg$c10();
           }
           s0 = s1;
-    
+
           return s0;
         }
-    
+
         function peg$parselineto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c11.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -694,13 +694,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parselineto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -737,13 +737,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsehorizontal_lineto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c14.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -777,13 +777,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecoordinate_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate();
           if (s1 !== peg$FAILED) {
@@ -820,13 +820,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsevertical_lineto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c17.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -860,13 +860,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecurveto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c20.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -900,13 +900,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecurveto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecurveto_argument();
           if (s1 !== peg$FAILED) {
@@ -943,13 +943,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecurveto_argument() {
           var s0, s1, s2, s3, s4, s5;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -990,13 +990,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesmooth_curveto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c24.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -1030,13 +1030,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesmooth_curveto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsesmooth_curveto_argument();
           if (s1 !== peg$FAILED) {
@@ -1073,13 +1073,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesmooth_curveto_argument() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -1105,13 +1105,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsequadratic_bezier_curveto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c28.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -1145,13 +1145,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsequadratic_bezier_curveto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsequadratic_bezier_curveto_argument();
           if (s1 !== peg$FAILED) {
@@ -1188,13 +1188,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsequadratic_bezier_curveto_argument() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -1220,13 +1220,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesmooth_quadratic_bezier_curveto() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c31.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -1260,13 +1260,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesmooth_quadratic_bezier_curveto_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate_pair();
           if (s1 !== peg$FAILED) {
@@ -1303,13 +1303,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseelliptical_arc() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c34.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -1343,13 +1343,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseelliptical_arc_argument_sequence() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = peg$parseelliptical_arc_argument();
           if (s1 !== peg$FAILED) {
@@ -1386,13 +1386,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseelliptical_arc_argument() {
           var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsenonnegative_number();
           if (s1 !== peg$FAILED) {
@@ -1475,13 +1475,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecoordinate_pair() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsecoordinate();
           if (s1 !== peg$FAILED) {
@@ -1507,13 +1507,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecoordinate() {
           var s0, s1;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsenumber();
           if (s1 !== peg$FAILED) {
@@ -1521,24 +1521,24 @@ if (typeof Path2D !== 'function' ||
             s1 = peg$c39(s1);
           }
           s0 = s1;
-    
+
           return s0;
         }
-    
+
         function peg$parsenonnegative_number() {
           var s0;
-    
+
           s0 = peg$parsefloating_point_constant();
           if (s0 === peg$FAILED) {
             s0 = peg$parsedigit_sequence();
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsenumber() {
           var s0, s1, s2;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsesign();
           if (s1 === peg$FAILED) {
@@ -1577,13 +1577,13 @@ if (typeof Path2D !== 'function' ||
               s0 = peg$c0;
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseflag() {
           var s0;
-    
+
           if (input.charCodeAt(peg$currPos) === 48) {
             s0 = peg$c40;
             peg$currPos++;
@@ -1600,13 +1600,13 @@ if (typeof Path2D !== 'function' ||
               if (peg$silentFails === 0) { peg$fail(peg$c43); }
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecomma_wsp() {
           var s0, s1, s2, s3, s4;
-    
+
           s0 = peg$currPos;
           s1 = [];
           s2 = peg$parsewsp();
@@ -1667,13 +1667,13 @@ if (typeof Path2D !== 'function' ||
               s0 = peg$c0;
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsecomma() {
           var s0;
-    
+
           if (input.charCodeAt(peg$currPos) === 44) {
             s0 = peg$c44;
             peg$currPos++;
@@ -1681,13 +1681,13 @@ if (typeof Path2D !== 'function' ||
             s0 = peg$FAILED;
             if (peg$silentFails === 0) { peg$fail(peg$c45); }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsefloating_point_constant() {
           var s0, s1, s2;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsefractional_constant();
           if (s1 !== peg$FAILED) {
@@ -1723,13 +1723,13 @@ if (typeof Path2D !== 'function' ||
               s0 = peg$c0;
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsefractional_constant() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           s1 = peg$parsedigit_sequence();
           if (s1 === peg$FAILED) {
@@ -1783,13 +1783,13 @@ if (typeof Path2D !== 'function' ||
               s0 = peg$c0;
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parseexponent() {
           var s0, s1, s2, s3;
-    
+
           s0 = peg$currPos;
           if (peg$c48.test(input.charAt(peg$currPos))) {
             s1 = input.charAt(peg$currPos);
@@ -1820,13 +1820,13 @@ if (typeof Path2D !== 'function' ||
             peg$currPos = s0;
             s0 = peg$c0;
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsesign() {
           var s0;
-    
+
           if (input.charCodeAt(peg$currPos) === 43) {
             s0 = peg$c50;
             peg$currPos++;
@@ -1843,13 +1843,13 @@ if (typeof Path2D !== 'function' ||
               if (peg$silentFails === 0) { peg$fail(peg$c53); }
             }
           }
-    
+
           return s0;
         }
-    
+
         function peg$parsedigit_sequence() {
           var s0, s1, s2;
-    
+
           s0 = peg$currPos;
           s1 = [];
           if (peg$c54.test(input.charAt(peg$currPos))) {
@@ -1878,13 +1878,13 @@ if (typeof Path2D !== 'function' ||
             s1 = peg$c56(s1);
           }
           s0 = s1;
-    
+
           return s0;
         }
-    
+
         function peg$parsewsp() {
           var s0;
-    
+
           if (peg$c57.test(input.charAt(peg$currPos))) {
             s0 = input.charAt(peg$currPos);
             peg$currPos++;
@@ -1892,232 +1892,232 @@ if (typeof Path2D !== 'function' ||
             s0 = peg$FAILED;
             if (peg$silentFails === 0) { peg$fail(peg$c58); }
           }
-    
+
           return s0;
         }
-    
-    
-          // The last coordinate we are at in the path. In absolute coords.
-          var lastCoord = [0, 0];
-          // The start point of the previous path.
-          var startOfPrevPath = lastCoord;
-          // The last control point we encountered in the path. In absolute coords.
-          var lastControl = [0, 0];
-          // The list of operations we've parsed so far.
-          var ops = [];
-          // Have we parsed the first sub-path yet?
-          var firstSubPath = true;
-          // The letter of the last parsed command.
-          var lastCh = '';
-    
-          // Flatten an array.
-          function flatten(a) {
-            var flat = [];
-            for (var i = 0; i < a.length; i++) {
-              if (a[i] instanceof Array) {
-                flat.push.apply(flat, flatten(a[i]));
-              } else {
-                flat.push(a[i]);
-              }
-            }
-            return flat;
-          }
-    
-          // Convert a position into an absolute position.
-          function makeAbsolute(c, coord) {
-            if ('mlazhvcsqt'.indexOf(c) === -1) {
-              lastCoord = coord;
-            } else {
-              lastCoord[0] += coord[0];
-              lastCoord[1] += coord[1];
-            }
-            lastCh = c;
-            return lastCoord.slice(0);
-          }
-    
-          // Convert a sequence of coordinates into absolute coordinates.
-          //
-          // For arguments that take multiple coord pairs, such as bezier.
-          function makeAbsoluteMultiple(c, seq) {
-            var r = [];
-            var lastPosCopy = lastCoord.slice(0);
-            for (var i=0; i < seq.length; i+=2) {
-              // Only the last point should update lastCoord.
-              lastCoord = lastPosCopy.slice(0);
-              var coord = makeAbsolute(c, seq.slice(i, i+2));
-              r = r.concat(coord);
-              // Record the last control point, it might be needed for
-              // shorthand operations.
-              if (i == seq.length-4) {
-                lastControl = coord.slice(0);
-              }
-            }
-            return r;
-          }
-    
-          // Find the reflection of the last control point over
-          // the last postion in the path.
-          function makeReflected() {
-            if ('CcSsQqTt'.indexOf(lastCh) == -1) {
-              lastControl = lastCoord.slice(0);
-            }
-            // reflected = 2*lastCoord - lastControl
-            // Note the result is absolute, not relative.
-            var r = [0, 0];
-            r[0] = 2*lastCoord[0] - lastControl[0];
-            r[1] = 2*lastCoord[1] - lastControl[1];
-            return r;
-          }
-    
-          function makeAbsoluteFromX(c, x) {
-            var coord = [x, 0];
-            if (c == 'H') {
-              coord[1] = lastCoord[1];
-            }
-            return makeAbsolute(c, coord);
-          }
-    
-          function makeAbsoluteFromY(c, y) {
-            var coord = [0, y];
-            if (c == 'V') {
-              coord[0] = lastCoord[0];
-            }
-            return makeAbsolute(c, coord);
-          }
-    
-          function concatSequence(one, rest) {
-            var r = [one];
-            if (rest && rest.length > 1) {
-              var rem = rest[1];
-              for (var i = 0; i < rem.length; i++) {
-                r.push(rem[i]);
-              }
-            }
-            return r;
-          }
-    
-          function mag(v) {
-            return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2));
-          }
-    
-          function dot(u, v) {
-            return (u[0]*v[0] + u[1]*v[1]);
-          }
-    
-          function ratio(u, v) {
-            return dot(u,v) / (mag(u)*mag(v))
-          }
 
-          function clamp(value, min, max) {
-            return Math.min(Math.max(val, min),max);
-          }
-    
-          function angle(u, v) {
-            var sign = 1.0;
-            if ((u[0]*v[1] - u[1]*v[0]) < 0) {
-              sign = -1.0;
+
+        // The last coordinate we are at in the path. In absolute coords.
+        var lastCoord = [0, 0];
+        // The start point of the previous path.
+        var startOfPrevPath = lastCoord;
+        // The last control point we encountered in the path. In absolute coords.
+        var lastControl = [0, 0];
+        // The list of operations we've parsed so far.
+        var ops = [];
+        // Have we parsed the first sub-path yet?
+        var firstSubPath = true;
+        // The letter of the last parsed command.
+        var lastCh = '';
+
+        // Flatten an array.
+        function flatten(a) {
+          var flat = [];
+          for (var i = 0; i < a.length; i++) {
+            if (a[i] instanceof Array) {
+              flat.push.apply(flat, flatten(a[i]));
+            } else {
+              flat.push(a[i]);
             }
-            return sign * Math.acos(clamp(ratio(u,v)), -1, 1);
           }
-    
-          function rotClockwise(v, angle) {
-            var cost = Math.cos(angle);
-            var sint = Math.sin(angle);
-            return [cost*v[0] + sint*v[1], -1 * sint*v[0] + cost*v[1]];
+          return flat;
+        }
+
+        // Convert a position into an absolute position.
+        function makeAbsolute(c, coord) {
+          if ('mlazhvcsqt'.indexOf(c) === -1) {
+            lastCoord = coord;
+          } else {
+            lastCoord[0] += coord[0];
+            lastCoord[1] += coord[1];
           }
-    
-          function rotCounterClockwise(v, angle) {
-            var cost = Math.cos(angle);
-            var sint = Math.sin(angle);
-            return [cost*v[0] - sint*v[1], sint*v[0] + cost*v[1]];
-          }
-    
-          function midPoint(u, v) {
-            return [(u[0] - v[0])/2.0, (u[1] - v[1])/2.0];
-          }
-    
-          function meanVec(u, v) {
-            return [(u[0] + v[0])/2.0, (u[1] + v[1])/2.0];
-          }
-    
-          function pointMul(u, v) {
-            return [u[0]*v[0], u[1]*v[1]];
-          }
-    
-          function scale(c, v) {
-            return [c*v[0], c*v[1]];
-          }
-    
-          function sum(u, v) {
-            return [u[0] + v[0], u[1] + v[1]];
-          }
-    
-          // Convert an SVG elliptical arc to a series of canvas commands.
-          //
-          // x1, x2: start and stop coordinates of the ellipse.
-          // rx, ry: radii of the ellipse.
-          // phi: rotation of the ellipse.
-          // fA: large arc flag.
-          // fS: sweep flag.
-          function ellipseFromEllipticalArc(x1, rx, ry, phi, fA, fS, x2) {
-            // Convert from endpoint to center parametrization, as detailed in:
-            //   http://www.w3.org/TR/SVG/implnote.html#ArcImplementationNotes
-            if (rx == 0 || ry == 0) {
-              ops.push({type: 'lineTo', args: x2});
-              return;
+          lastCh = c;
+          return lastCoord.slice(0);
+        }
+
+        // Convert a sequence of coordinates into absolute coordinates.
+        //
+        // For arguments that take multiple coord pairs, such as bezier.
+        function makeAbsoluteMultiple(c, seq) {
+          var r = [];
+          var lastPosCopy = lastCoord.slice(0);
+          for (var i=0; i < seq.length; i+=2) {
+            // Only the last point should update lastCoord.
+            lastCoord = lastPosCopy.slice(0);
+            var coord = makeAbsolute(c, seq.slice(i, i+2));
+            r = r.concat(coord);
+            // Record the last control point, it might be needed for
+            // shorthand operations.
+            if (i == seq.length-4) {
+              lastControl = coord.slice(0);
             }
-            var phi = phi * (Math.PI / 180.0);
-            rx = Math.abs(rx);
-            ry = Math.abs(ry);
-            var xPrime = rotClockwise(midPoint(x1, x2), phi);                // F.6.5.1
-            var xPrime2 = pointMul(xPrime, xPrime);
-            var rx2 = Math.pow(rx, 2);
-            var ry2 = Math.pow(ry, 2);
-    
-            var lambda = Math.sqrt(xPrime2[0]/rx2 + xPrime2[1]/ry2);
-            if (lambda > 1) {
-              rx *= lambda;
-              ry *= lambda;
-              rx2 = Math.pow(rx, 2);
-              ry2 = Math.pow(ry, 2);
-            }
-            var factor = Math.sqrt(Math.abs(rx2*ry2 - rx2*xPrime2[1] - ry2*xPrime2[0]) /
-              (rx2*xPrime2[1] + ry2*xPrime2[0]));
-            if (fA == fS) {
-              factor *= -1.0;
-            }
-            var cPrime = scale(factor, [rx*xPrime[1]/ry, -ry*xPrime[0]/rx]); // F.6.5.2
-            var c = sum(rotCounterClockwise(cPrime, phi), meanVec(x1, x2));  // F.6.5.3
-            var x1UnitVector = [(xPrime[0] - cPrime[0])/rx, (xPrime[1] - cPrime[1])/ry];
-            var x2UnitVector = [(-1.0*xPrime[0] - cPrime[0])/rx, (-1.0*xPrime[1] - cPrime[1])/ry];
-            var theta = angle([1, 0], x1UnitVector);                         // F.6.5.5
-            var deltaTheta = angle(x1UnitVector, x2UnitVector);              // F.6.5.6
-            var start = theta;
-            var end = theta+deltaTheta;
-            ops.push(
-              {type: 'save', args: []},
-              {type: 'translate', args: [c[0], c[1]]},
-              {type: 'rotate', args: [phi]},
-              {type: 'scale', args: [rx, ry]},
-              {type: 'arc', args: [0, 0, 1, start, end, 1-fS]},
-              {type: 'restore', args: []}
-              );
           }
-    
-    
+          return r;
+        }
+
+        // Find the reflection of the last control point over
+        // the last postion in the path.
+        function makeReflected() {
+          if ('CcSsQqTt'.indexOf(lastCh) == -1) {
+            lastControl = lastCoord.slice(0);
+          }
+          // reflected = 2*lastCoord - lastControl
+          // Note the result is absolute, not relative.
+          var r = [0, 0];
+          r[0] = 2*lastCoord[0] - lastControl[0];
+          r[1] = 2*lastCoord[1] - lastControl[1];
+          return r;
+        }
+
+        function makeAbsoluteFromX(c, x) {
+          var coord = [x, 0];
+          if (c == 'H') {
+            coord[1] = lastCoord[1];
+          }
+          return makeAbsolute(c, coord);
+        }
+
+        function makeAbsoluteFromY(c, y) {
+          var coord = [0, y];
+          if (c == 'V') {
+            coord[0] = lastCoord[0];
+          }
+          return makeAbsolute(c, coord);
+        }
+
+        function concatSequence(one, rest) {
+          var r = [one];
+          if (rest && rest.length > 1) {
+            var rem = rest[1];
+            for (var i = 0; i < rem.length; i++) {
+              r.push(rem[i]);
+            }
+          }
+          return r;
+        }
+
+        function mag(v) {
+          return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2));
+        }
+
+        function dot(u, v) {
+          return (u[0]*v[0] + u[1]*v[1]);
+        }
+
+        function ratio(u, v) {
+          return dot(u,v) / (mag(u)*mag(v))
+        }
+
+        function clamp(value, min, max) {
+          return Math.min(Math.max(val, min),max);
+        }
+
+        function angle(u, v) {
+          var sign = 1.0;
+          if ((u[0]*v[1] - u[1]*v[0]) < 0) {
+            sign = -1.0;
+          }
+          return sign * Math.acos(clamp(ratio(u,v)), -1, 1);
+        }
+
+        function rotClockwise(v, angle) {
+          var cost = Math.cos(angle);
+          var sint = Math.sin(angle);
+          return [cost*v[0] + sint*v[1], -1 * sint*v[0] + cost*v[1]];
+        }
+
+        function rotCounterClockwise(v, angle) {
+          var cost = Math.cos(angle);
+          var sint = Math.sin(angle);
+          return [cost*v[0] - sint*v[1], sint*v[0] + cost*v[1]];
+        }
+
+        function midPoint(u, v) {
+          return [(u[0] - v[0])/2.0, (u[1] - v[1])/2.0];
+        }
+
+        function meanVec(u, v) {
+          return [(u[0] + v[0])/2.0, (u[1] + v[1])/2.0];
+        }
+
+        function pointMul(u, v) {
+          return [u[0]*v[0], u[1]*v[1]];
+        }
+
+        function scale(c, v) {
+          return [c*v[0], c*v[1]];
+        }
+
+        function sum(u, v) {
+          return [u[0] + v[0], u[1] + v[1]];
+        }
+
+        // Convert an SVG elliptical arc to a series of canvas commands.
+        //
+        // x1, x2: start and stop coordinates of the ellipse.
+        // rx, ry: radii of the ellipse.
+        // phi: rotation of the ellipse.
+        // fA: large arc flag.
+        // fS: sweep flag.
+        function ellipseFromEllipticalArc(x1, rx, ry, phi, fA, fS, x2) {
+          // Convert from endpoint to center parametrization, as detailed in:
+          //   http://www.w3.org/TR/SVG/implnote.html#ArcImplementationNotes
+          if (rx == 0 || ry == 0) {
+            ops.push({type: 'lineTo', args: x2});
+            return;
+          }
+          var phi = phi * (Math.PI / 180.0);
+          rx = Math.abs(rx);
+          ry = Math.abs(ry);
+          var xPrime = rotClockwise(midPoint(x1, x2), phi);                // F.6.5.1
+          var xPrime2 = pointMul(xPrime, xPrime);
+          var rx2 = Math.pow(rx, 2);
+          var ry2 = Math.pow(ry, 2);
+
+          var lambda = Math.sqrt(xPrime2[0]/rx2 + xPrime2[1]/ry2);
+          if (lambda > 1) {
+            rx *= lambda;
+            ry *= lambda;
+            rx2 = Math.pow(rx, 2);
+            ry2 = Math.pow(ry, 2);
+          }
+          var factor = Math.sqrt(Math.abs(rx2*ry2 - rx2*xPrime2[1] - ry2*xPrime2[0]) /
+            (rx2*xPrime2[1] + ry2*xPrime2[0]));
+          if (fA == fS) {
+            factor *= -1.0;
+          }
+          var cPrime = scale(factor, [rx*xPrime[1]/ry, -ry*xPrime[0]/rx]); // F.6.5.2
+          var c = sum(rotCounterClockwise(cPrime, phi), meanVec(x1, x2));  // F.6.5.3
+          var x1UnitVector = [(xPrime[0] - cPrime[0])/rx, (xPrime[1] - cPrime[1])/ry];
+          var x2UnitVector = [(-1.0*xPrime[0] - cPrime[0])/rx, (-1.0*xPrime[1] - cPrime[1])/ry];
+          var theta = angle([1, 0], x1UnitVector);                         // F.6.5.5
+          var deltaTheta = angle(x1UnitVector, x2UnitVector);              // F.6.5.6
+          var start = theta;
+          var end = theta+deltaTheta;
+          ops.push(
+            {type: 'save', args: []},
+            {type: 'translate', args: [c[0], c[1]]},
+            {type: 'rotate', args: [phi]},
+            {type: 'scale', args: [rx, ry]},
+            {type: 'arc', args: [0, 0, 1, start, end, 1-fS]},
+            {type: 'restore', args: []}
+            );
+        }
+
+
         peg$result = peg$startRuleFunction();
-    
+
         if (peg$result !== peg$FAILED && peg$currPos === input.length) {
           return peg$result;
         } else {
           if (peg$result !== peg$FAILED && peg$currPos < input.length) {
             peg$fail({ type: "end", description: "end of input" });
           }
-    
+
           throw peg$buildException(null, peg$maxFailExpected, peg$maxFailPos);
         }
       }
-    
+
       return {
         SyntaxError: SyntaxError,
         parse:       parse
