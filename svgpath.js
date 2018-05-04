@@ -45,7 +45,11 @@ parser = (function() {
                 moveCh = 'M';
                 firstSubPath = false;
               }
-              ops.push({type: 'moveTo', args: makeAbsolute(moveCh, args[0])});
+
+              var coord = makeAbsolute(moveCh, args[0]);
+              ops.push({type: 'moveTo', args: coord});
+              startOfPrevPath = coord.slice();
+
               for (var i=1; i < args.length; i++) {
                 // The lineTo args are either abs or relative, depending on the
                 // original moveto command.
@@ -55,7 +59,10 @@ parser = (function() {
         peg$c7 = function(one, rest) { return concatSequence(one, rest); },
         peg$c8 = /^[Zz]/,
         peg$c9 = { type: "class", value: "[Zz]", description: "[Zz]" },
-        peg$c10 = function() { ops.push({type: 'closePath', args: []}); },
+        peg$c10 = function() {
+          ops.push({type: 'closePath', args: []});
+          lastCoord = startOfPrevPath;
+        },
         peg$c11 = /^[Ll]/,
         peg$c12 = { type: "class", value: "[Ll]", description: "[Ll]" },
         peg$c13 = function(ch, args) {
@@ -1858,6 +1865,8 @@ parser = (function() {
 
       // The last coordinate we are at in the path. In absolute coords.
       var lastCoord = [0, 0];
+      // The start point of the previous path.
+      var startOfPrevPath = lastCoord;
       // The last control point we encountered in the path. In absolute coords.
       var lastControl = [0, 0];
       // The list of operations we've parsed so far.
