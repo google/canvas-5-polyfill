@@ -79,7 +79,11 @@ if (typeof Path2D !== 'function' ||
                     moveCh = 'M';
                     firstSubPath = false;
                   }
-                  ops.push({type: 'moveTo', args: makeAbsolute(moveCh, args[0])});
+
+                  const moveToPoint = makeAbsolute(moveCh, args[0]);
+                  lastMoveToPoint = moveToPoint;
+                  ops.push({type: 'moveTo', args: moveToPoint});
+
                   for (var i=1; i < args.length; i++) {
                     // The lineTo args are either abs or relative, depending on the
                     // original moveto command.
@@ -89,7 +93,10 @@ if (typeof Path2D !== 'function' ||
             peg$c7 = function(one, rest) { return concatSequence(one, rest); },
             peg$c8 = /^[Zz]/,
             peg$c9 = { type: "class", value: "[Zz]", description: "[Zz]" },
-            peg$c10 = function() { ops.push({type: 'closePath', args: []}); },
+            peg$c10 = function() {
+              ops.push({type: 'closePath', args: []});
+              lastCoord = lastMoveToPoint.slice(0);
+            },
             peg$c11 = /^[Ll]/,
             peg$c12 = { type: "class", value: "[Ll]", description: "[Ll]" },
             peg$c13 = function(ch, args) {
@@ -1894,6 +1901,8 @@ if (typeof Path2D !== 'function' ||
           var lastCoord = [0, 0];
           // The last control point we encountered in the path. In absolute coords.
           var lastControl = [0, 0];
+          // The last point where we have moved to
+          var lastMoveToPoint = [0, 0];
           // The list of operations we've parsed so far.
           var ops = [];
           // Have we parsed the first sub-path yet?
