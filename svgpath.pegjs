@@ -13,6 +13,8 @@
   var lastCoord = [0, 0];
   // The last control point we encountered in the path. In absolute coords.
   var lastControl = [0, 0];
+  // The last point where we have moved to
+  var lastMoveToPoint = [0, 0];
   // The list of operations we've parsed so far.
   var ops = [];
   // Have we parsed the first sub-path yet?
@@ -245,7 +247,11 @@ moveto
         moveCh = 'M';
         firstSubPath = false;
       }
-      ops.push({type: 'moveTo', args: makeAbsolute(moveCh, args[0])});
+
+      const moveToPoint = makeAbsolute(moveCh, args[0]);
+      lastMoveToPoint = moveToPoint;
+      ops.push({type: 'moveTo', args: moveToPoint});
+
       for (var i=1; i < args.length; i++) {
         // The lineTo args are either abs or relative, depending on the
         // original moveto command.
@@ -260,7 +266,10 @@ moveto_argument_sequence
 
 closepath
   = [Zz]
-    { ops.push({type: 'closePath', args: []}); }
+    { 
+      ops.push({type: 'closePath', args: []});
+      lastCoord = lastMoveToPoint.slice(0);
+    }
 
 lineto
   = ch:[Ll] wsp* args:lineto_argument_sequence
@@ -364,7 +373,7 @@ elliptical_arc
     for (var i=0; i < args.length; i++) {
       var x1 = [lastCoord.slice()];
       var x2 = [makeAbsolute(ch, args[i].slice(-2))];
-      absArgs = x1.concat(args[i].slice(0, -2), x2);
+      var absArgs = x1.concat(args[i].slice(0, -2), x2);
       ellipseFromEllipticalArc.apply(this, absArgs);
     }
   }

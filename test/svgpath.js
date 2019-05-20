@@ -240,6 +240,34 @@ describe('SVG Path Parser',
         cmpCmd(p, 6, {type: 'restore', args:   []});
     });
 
+    it('should handle SVG Path with multiple moveTo commands and relative positions', function() {
+        var p = parser.parse('m0,0 l100,0 l0,100 l-100,0 z m200,000 l 100,0 l0,100 l-100,0 z')
+        cmpCmd(p, 0, { type: 'moveTo', args:   [0, 0]});
+        cmpCmd(p, 1, { type: 'lineTo', args:   [100, 0]});
+        cmpCmd(p, 2, { type: 'lineTo', args:   [100, 100]});
+        cmpCmd(p, 3, { type: 'lineTo', args:   [0, 100]});
+        cmpCmd(p, 4, { type: 'closePath', args: []});
+        cmpCmd(p, 5, { type: 'moveTo', args:   [200, 0]});
+        cmpCmd(p, 6, { type: 'lineTo', args:   [300, 0]});
+        cmpCmd(p, 7, { type: 'lineTo', args:   [300, 100]});
+        cmpCmd(p, 8, { type: 'lineTo', args:   [200, 100]});
+        cmpCmd(p, 9, { type: 'closePath', args: []});
+    });
+
+    it('should handle SVG Path with multiple moveTo commands and absolut positions', function() {
+        var p = parser.parse('M0,0 L100,0 L100,100 L0,100 z M200,0 L300,0 L300,100 L200,100 z')
+        cmpCmd(p, 0, { type: 'moveTo', args:   [0, 0]});
+        cmpCmd(p, 1, { type: 'lineTo', args:   [100, 0]});
+        cmpCmd(p, 2, { type: 'lineTo', args:   [100, 100]});
+        cmpCmd(p, 3, { type: 'lineTo', args:   [0, 100]});
+        cmpCmd(p, 4, { type: 'closePath', args: []});
+        cmpCmd(p, 5, { type: 'moveTo', args:   [200, 0]});
+        cmpCmd(p, 6, { type: 'lineTo', args:   [300, 0]});
+        cmpCmd(p, 7, { type: 'lineTo', args:   [300, 100]});
+        cmpCmd(p, 8, { type: 'lineTo', args:   [200, 100]});
+        cmpCmd(p, 9, { type: 'closePath', args: []});
+    });
+
     it('should handle errors in the path', function() {
         assert.throws(function() { parser.parse('this is not a path'); });
     });
