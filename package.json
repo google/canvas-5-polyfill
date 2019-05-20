@@ -30,7 +30,7 @@
     "mocha": "~3.4.0",
     "karma-mocha": "~1.3.0",
     "karma-chai": "0.1.0",
-    "pegjs": "~0.8.0",
+    "pegjs": "~0.10.0",
     "rigger": "~0.5.7",
     "karma-ie-launcher": "~1.0.0",
     "chai": "3.5.0"
