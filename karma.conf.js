@@ -9,7 +9,7 @@
 var browsers;
 var os = require('os').type();
 if (os === 'Darwin') {
-  browsers = ['Chrome'];
+  browsers = ['Chrome', 'ChromeCanaryExperimental', 'Firefox', 'Safari'];
 } else if (os === 'Windows_NT') {
   browsers = ['Chrome', 'Firefox', 'IE'];
 } else {
