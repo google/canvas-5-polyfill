@@ -1999,7 +1999,7 @@ if (typeof Path2D !== 'function' ||
             return dot(u,v) / (mag(u)*mag(v))
           }
 
-          function clamp(value, min, max) {
+          function clamp(val, min, max) {
             return Math.min(Math.max(val, min),max);
           }
     
