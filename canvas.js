@@ -2008,7 +2008,7 @@ if (typeof Path2D !== 'function' ||
             if ((u[0]*v[1] - u[1]*v[0]) < 0) {
               sign = -1.0;
             }
-            return sign * Math.acos(clamp(ratio(u,v)), -1, 1);
+            return sign * Math.acos(clamp(ratio(u,v), -1, 1));
           }
     
           function rotClockwise(v, angle) {
